@@ -3,9 +3,7 @@ const NotFoundError = require('../errors/notFoundError');
 const ConflictError = require('../errors/conflictError');
 const UnauthorizedError = require('../errors/unauthorizedError');
 const User = require('../models/user');
-
-const { JWT_SECRET = 'top secret' } = process.env;
-const jwtLiveTime = 7 * 24 * 3600 * 1000; // h
+const { JWT_SECRET, JWTLiveTime } = require('../utils/const');
 
 const getUser = (req, res, next) => User.findById(req.user._id)
   .orFail(() => new NotFoundError('User is not found'))
@@ -43,7 +41,13 @@ const updateUser = (req, res, next) => {
   )
     .orFail(() => new NotFoundError('User is not found'))
     .then((usr) => res.send({ data: usr }))
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new ConflictError('User with email already exist'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const login = (req, res, next) => {
@@ -52,7 +56,7 @@ const login = (req, res, next) => {
     .then((usr) => {
       const token = jwt.sign({ _id: usr._id }, JWT_SECRET, { expiresIn: '7d' });
       res.cookie('token', token, {
-        maxAge: jwtLiveTime,
+        maxAge: JWTLiveTime,
         httpOnly: true,
         sameSite: true,
       });

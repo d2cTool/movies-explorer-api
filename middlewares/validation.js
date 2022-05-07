@@ -60,7 +60,7 @@ exports.movieValidation = celebrate({
       }
       return helpers.message('Invalid thumbnail url');
     }),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),

@@ -44,9 +44,9 @@ const deleteMovie = (req, res, next) => {
     .orFail(() => new NotFoundError('Movie is not found'))
     .then((movie) => {
       if (!movie.owner.equals(userId)) {
-        next(new ForbiddenError("You cannot delete someone else's movie"));
+        throw new ForbiddenError("You cannot delete someone else's movie");
       } else {
-        movie.remove().then(() => res.send(movie));
+        return movie.remove().then(() => res.send(movie));
       }
     })
     .catch((err) => next(err));
