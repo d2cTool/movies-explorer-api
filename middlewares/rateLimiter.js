@@ -8,4 +8,4 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-export default limiter;
+module.exports = limiter;
