@@ -15,11 +15,10 @@ const createUser = (req, res, next) => {
 
   User
     .create({ name, email, password })
-    .then(() => res.send({
-      user: {
-        name,
-        email,
-      },
+    .then((usr) => res.send({
+      id: usr._id,
+      name,
+      email,
     }))
     .catch((err) => {
       if (err.code === 11000) {
@@ -40,7 +39,7 @@ const updateUser = (req, res, next) => {
     },
   )
     .orFail(() => new NotFoundError('User is not found'))
-    .then((usr) => res.send({ data: usr }))
+    .then((usr) => res.send(usr))
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictError('User with email already exist'));
@@ -59,8 +58,9 @@ const login = (req, res, next) => {
         maxAge: JWTLiveTime,
         httpOnly: true,
         sameSite: true,
+        // secure: true,
       });
-      res.send({ message: `User with email ${email} authorized` });
+      res.send({ id: usr._id, email });
     })
     .catch((err) => next(new UnauthorizedError(err.message)));
 };

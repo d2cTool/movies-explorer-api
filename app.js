@@ -9,7 +9,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const limiter = require('./middlewares/rateLimiter');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { PORT, DB_CONNECTION_STRING } = require('./utils/const');
+const { PORT, DB_CONNECTION_STRING, CORS_OPT } = require('./utils/const');
 
 const app = express();
 
@@ -18,7 +18,7 @@ mongoose.connect(DB_CONNECTION_STRING);
 app.use(express.json());
 app.use(requestLogger);
 app.use(helmet());
-app.use(cors());
+app.use(cors(CORS_OPT));
 app.use(limiter);
 app.use(cookieParser());
 

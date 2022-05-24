@@ -9,6 +9,24 @@ const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://loca
 const RLWindowMs = 15 * 60 * 1000; // 15m
 const RLMax = 100;
 
+const whitelist = [
+  'http://localhost:3000',
+  'https://localhost:3000',
+  'http://d2c.nomoredomains.xyz',
+  'https://d2c.nomoredomains.xyz',
+];
+const CORS_OPT = {
+  // eslint-disable-next-line object-shorthand
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
 module.exports = {
   JWT_SECRET,
   JWTLiveTime,
@@ -16,4 +34,5 @@ module.exports = {
   DB_CONNECTION_STRING,
   RLWindowMs,
   RLMax,
+  CORS_OPT,
 };
