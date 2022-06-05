@@ -16,14 +16,7 @@ const whitelist = [
   'https://d2c.nomoredomains.xyz',
 ];
 const CORS_OPT = {
-  // eslint-disable-next-line object-shorthand
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: whitelist,
   credentials: true,
 };
 

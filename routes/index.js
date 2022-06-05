@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post('/signup', signUpValidation, createUser);
 router.post('/signin', signInValidation, login);
-router.post('/signout', logout);
+router.get('/signout', logout);
 
 router.use(auth);
 

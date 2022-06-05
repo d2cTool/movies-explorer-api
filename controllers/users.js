@@ -57,8 +57,8 @@ const login = (req, res, next) => {
       res.cookie('token', token, {
         maxAge: JWTLiveTime,
         httpOnly: true,
-        sameSite: true,
-        // secure: true,
+        sameSite: 'none',
+        secure: true,
       });
       res.send({ id: usr._id, email });
     })
