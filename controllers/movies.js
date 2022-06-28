@@ -2,7 +2,7 @@ const NotFoundError = require('../errors/notFoundError');
 const ForbiddenError = require('../errors/forbiddenError');
 const Movie = require('../models/movie');
 
-const getMovie = (req, res, next) => Movie.find()
+const getMovie = (req, res, next) => Movie.find({ owner: req.user._id })
   .then((movies) => res.send(movies))
   .catch((err) => next(err));
 

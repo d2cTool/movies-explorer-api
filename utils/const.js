@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3001;
 const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://localhost:27017/moviesdb';
 
 const RLWindowMs = 15 * 60 * 1000; // 15m
-const RLMax = 100;
+const RLMax = 1000;
 
 const whitelist = [
   'http://localhost:3000',
